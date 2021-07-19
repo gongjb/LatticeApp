@@ -1,0 +1,3 @@
+rootProject.name='LatticeApp'
+include ':app'
+include ':latticeview'

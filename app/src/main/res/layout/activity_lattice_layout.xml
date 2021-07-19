@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.gongjiebin.latticeview.LatticeView
+        android:id="@+id/ll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_textBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="字体加粗" />
+
+
+        <Button
+            android:id="@+id/btn_sel_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选中字体变大" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="就显示" />
+
+        <Button
+            android:id="@+id/btn_sel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="有选中状态" />
+    </LinearLayout>
+</LinearLayout>
