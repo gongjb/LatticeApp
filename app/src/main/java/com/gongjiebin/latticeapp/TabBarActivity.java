@@ -29,7 +29,6 @@ public class TabBarActivity extends AppCompatActivity {
 
     private int sel_idx;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

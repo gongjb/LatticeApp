@@ -55,7 +55,7 @@ public class AutoLineActivity extends AppCompatActivity {
 
 
         KVBean kvBean4 = new KVBean();
-        kvBean4.value = "给个stars就更好了，谢谢!!!";
+        kvBean4.value = "给个star就更好了，谢谢!!!";
 
         KVBean kvBean5 = new KVBean();
         kvBean5.value = "来一个超级长的Tag,其实我也不知道说什么，反正挺无语的。！！！！！！";
@@ -90,7 +90,8 @@ public class AutoLineActivity extends AppCompatActivity {
     public void initListener() {
         ao_layout.setOnItemClickListener(new AutoLineLayout.OnItemClickListener() {
             @Override
-            public void onClickItem(KVBean kvBean) {
+            public void onClickItem(View view,KVBean kvBean) {
+                //view 是点击的TextView
                 Log.i("GJB", "点击了" + kvBean.value);
             }
         });

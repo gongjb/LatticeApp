@@ -182,7 +182,7 @@ public abstract class BaseLatticeView extends LinearLayout {
         public int textColor;
         // 字体选中之后的颜色
         public int textSelectColor;
-        //字体选中时是否需要加粗
+        //字体选中时是否需要加粗, 如果用户设置了默认粗体显示（isTextBold = true），不会调用切换样式
         public boolean textSelectIsBold;
         // 字体大小/初始大小 sp
         public int textSize;

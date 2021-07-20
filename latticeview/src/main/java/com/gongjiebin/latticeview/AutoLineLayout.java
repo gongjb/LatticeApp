@@ -100,8 +100,12 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
                 textView.setLayoutParams(tr);
                 textView.setPadding(dip2px(mContext, 5), dip2px(mContext, 5), dip2px(mContext, 5), dip2px(mContext, 5));
                 textView.setText(viewList.get(i).value);
+
+                if(imageTextBeanParams.textSize!=0)
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, imageTextBeanParams.textSize);
+                if(imageTextBeanParams.getTextColor()!=0)
                 textView.setTextColor(mContext.getResources().getColor(imageTextBeanParams.getTextColor()));
+                if(imageTextBeanParams.getBg_color()!=0)
                 textView.setBackgroundResource(imageTextBeanParams.getBg_color());
 
                 textView.setOnClickListener(getOnItemClickListener(view));
@@ -141,7 +145,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
     }
 
     public interface OnItemClickListener<T extends KVBean>{
-       void onClickItem(T t);
+       void onClickItem(View view,T t);
     }
 
     public LatticeView.OnItemClickListener getOnItemClickListener(final T kv) {
@@ -149,7 +153,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
             @Override
             public void onClick(View v) {
                 if(AutoLineLayout.this.onItemClickListener!=null){
-                    AutoLineLayout.this.onItemClickListener.onClickItem(kv);
+                    AutoLineLayout.this.onItemClickListener.onClickItem(v,kv);
                 }
             }
         };
