@@ -275,7 +275,7 @@ public class LatticeView extends BaseLatticeView {
 
 
     /**
-     * 改变字体大小
+     * 改变图片
      *
      * @param position
      */

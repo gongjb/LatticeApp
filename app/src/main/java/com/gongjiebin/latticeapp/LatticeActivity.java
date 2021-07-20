@@ -33,17 +33,20 @@ public class LatticeActivity extends AppCompatActivity {
         btn_sel = findViewById(R.id.btn_sel);
         btn_textBold = findViewById(R.id.btn_textBold);
         btn_sel_bold = findViewById(R.id.btn_sel_bold);
-        imageTextParams= new LatticeView.ImageTextParams();
+
+        LatticeView.ImageTextParams imageTextParams= new LatticeView.ImageTextParams();
+        // 未被选中图片
         imageTextParams.images = new Integer[]{R.mipmap.tab_home, R.mipmap.tab_index, R.mipmap.tab_cart};
+        // 选中之后应该展示的图片
         imageTextParams.selectImages = new Integer[]{R.mipmap.tab_home_current,R.mipmap.tab_index_current, R.mipmap.tab_cart_current};
         imageTextParams.text = new String[]{"提问", "发动态", "发文章"};
         imageTextParams.maxLine = 3; // 每一行显示的个数
         imageTextParams.textSize = 11; // text的字体大小
-        imageTextParams.textPaddingTop = 2; //
-        imageTextParams.selectIndex = 0; // 第一个被选中
+        imageTextParams.textPaddingTop = 2; //字体向上给一个padding
+        imageTextParams.selectIndex = 0; // 默认第一个被选中
         imageTextParams.bg_color = android.R.color.transparent; // 背景透明
-        imageTextParams.textColor = R.color.black; // 字体颜色为
-        imageTextParams.textSelectColor = R.color.f0;
+        imageTextParams.textColor = R.color.black; // 字体默认颜色
+        imageTextParams.textSelectColor = R.color.f0; // 字体被选中的颜色
         ll_view.setImageTextParams(imageTextParams);
         ll_view.startView(); // 开始加载布局
 
@@ -55,10 +58,7 @@ public class LatticeActivity extends AppCompatActivity {
 
     public void initListener(){
 
-        /**
-         *  绑定点击事件
-         *
-         */
+        //   绑定点击事件
         ll_view.setOnPageItemOnClickListener(new BaseLatticeView.OnPageItemOnClickListener() {
             @Override
             public void onClick(View v, Object[] urls, int position) {
