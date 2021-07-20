@@ -161,4 +161,6 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
         return onItemClickListener;
     }
 
+
+
 }
