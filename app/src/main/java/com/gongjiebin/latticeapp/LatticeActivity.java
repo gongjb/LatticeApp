@@ -34,7 +34,7 @@ public class LatticeActivity extends AppCompatActivity {
         btn_textBold = findViewById(R.id.btn_textBold);
         btn_sel_bold = findViewById(R.id.btn_sel_bold);
 
-        LatticeView.ImageTextParams imageTextParams= new LatticeView.ImageTextParams();
+        imageTextParams= new LatticeView.ImageTextParams();
         // 未被选中图片
         imageTextParams.images = new Integer[]{R.mipmap.tab_home, R.mipmap.tab_index, R.mipmap.tab_cart};
         // 选中之后应该展示的图片

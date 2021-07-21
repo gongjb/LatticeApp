@@ -141,8 +141,6 @@ public class Image3DragDropPopWindow {
             }
         });
 
-
-
         //设置屏幕触摸事件
         imageView.setOnTouchListener(getTouchListener(pop,relativeLayout,w));
 
@@ -153,13 +151,11 @@ public class Image3DragDropPopWindow {
                 imageView.setFocusableInTouchMode(true);
                 imageView.requestFocus();
                 imageView.findFocus();
-
                 return false;
             }
         });
 
         handler.sendEmptyMessageDelayed(0,500);
-
         return pop;
     }
 

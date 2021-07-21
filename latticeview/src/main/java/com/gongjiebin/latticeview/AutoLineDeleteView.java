@@ -1,10 +1,10 @@
 package com.gongjiebin.latticeview;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,13 +20,6 @@ import java.util.List;
  */
 public class AutoLineDeleteView<T extends KVBean> extends AutoLineLayout {
 
-
-    private AutoEditParams editParams;
-
-    public void setEditParams(AutoEditParams editParams) {
-        this.editParams = editParams;
-    }
-
     public AutoLineDeleteView(Context context) {
         super(context);
     }
@@ -39,17 +32,24 @@ public class AutoLineDeleteView<T extends KVBean> extends AutoLineLayout {
         super(context, attrs, defStyleAttr);
     }
 
+
+    @Override
+    public void loadView() {
+        super.loadView();
+    }
+
     @Override
     public boolean startView() {
         if (editParams == null) return false;
         if (views == null || views.size() == 0) return false;
-        if (getW() == 0) return false;
-
+        if (editParams.width  == 0) return false;
+        textViews.clear();
         // 创建view
         createViews(views, 0);
-
         return true;
     }
+
+
 
 
     /**
@@ -73,15 +73,27 @@ public class AutoLineDeleteView<T extends KVBean> extends AutoLineLayout {
             if (view != null) {
                 View v_main = View.inflate(mContext, R.layout.item_auto_list_layout, null);
                 TextView textView = v_main.findViewById(R.id.tv_tag_name);
-                textView.setText(view.value);
+                textView.setText(view.getValue());
+                if(!view.isSel){
+                    if(editParams.textSize!=0)
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSize);
+                    if(editParams.getTextColor()!=0)
+                        textView.setTextColor(mContext.getResources().getColor(editParams.getTextColor()));
+                    if(editParams.getBg_color()!=0)
+                        textView.setBackgroundResource(editParams.bg_color);
+                }else{
+                    if(editParams.textSelectSize!=0)
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSelectSize);
+                    if(editParams.textSelectColor!=0)
+                        textView.setTextColor(mContext.getResources().getColor(editParams.textSelectColor));
+                    if(editParams.select_bg_color!=0)
+                        textView.setBackgroundResource(editParams.select_bg_color);
+                }
 
-                if (editParams.textSize != 0)
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSize);
-                if (editParams.textColor != 0)
-                    textView.setTextColor(mContext.getResources().getColor(editParams.getTextColor()));
-                if (editParams.bg_color != 0)
-                    textView.setBackgroundResource(editParams.getBg_color());
-
+                if(editParams.isTextBold){
+                    // 加粗显示
+                    textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                }
 
                 ImageView iv_del = v_main.findViewById(R.id.iv_del);
                 if(editParams.isShowDelImg){
@@ -101,17 +113,27 @@ public class AutoLineDeleteView<T extends KVBean> extends AutoLineLayout {
                 iv_del.setOnClickListener(onDeleteTbs(view));
                 // 绑定点击事件
                 textView.setOnClickListener(getOnItemClickListener(view));
-                float textWidth = textView.getPaint().measureText(viewList.get(i).value) + dip2px(mContext, 20);
+                float textWidth = textView.getPaint().measureText(viewList.get(i).getValue()) + dip2px(mContext, 20);
                 views_w += textWidth;
-                if (views_w > getW()) {
+                if (views_w > editParams.width ) {
                     if (i == 0) {
                         delStr.add(viewList.get(i));
+                        /**
+                         *  保存我们的textView以便切换状态
+                         */
+                        textView.setTag(view);
+                        textViews.add(textView);
                         linearLayout.addView(v_main, i);
                     } else {
                         break;
                     }
                 } else {
                     delStr.add(viewList.get(i));
+                    /**
+                     *  保存我们的textView以便切换状态
+                     */
+                    textView.setTag(view);
+                    textViews.add(textView);
                     linearLayout.addView(v_main, i);
                 }
             }
@@ -123,6 +145,9 @@ public class AutoLineDeleteView<T extends KVBean> extends AutoLineLayout {
         ll_lattice.addView(linearLayout, position);
         createViews(viewList, position + 1); // 递归调用
     }
+
+
+
 
 
     public View.OnClickListener onDeleteTbs(final T s) {
@@ -149,23 +174,9 @@ public class AutoLineDeleteView<T extends KVBean> extends AutoLineLayout {
     }
 
 
-    /**
-     * @author gongjiebin
-     */
-    public static class AutoEditParams extends BaseLatticeView.ImageTextParams {
-        /**
-         * 你可以设定你喜欢的删除图片，不设置的话默认使用本系统的
-         */
-        public int delImg;
 
-        /**
-         * 删除图片是不是放在左边, true 则显示在左上角
-         */
-        public boolean IsDelImgLeft;
 
-        /**
-         *  是否显示删除图片,默认显示
-         */
-        public boolean isShowDelImg = true;
-    }
+
+
+
 }

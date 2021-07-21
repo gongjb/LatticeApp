@@ -18,8 +18,9 @@ import com.gongjiebin.latticeview.Images3LinearLayout;
 public class Image3LayoutActivity extends AppCompatActivity implements
         Images3LinearLayout.OnPageDeleteImageClickListener,
         Images3LinearLayout.OnImages3PageItemOnClickListener,
-Images3LinearLayout.OnPageItemOnLongClickListener,
+        Images3LinearLayout.OnPageItemOnLongClickListener,
         View.OnClickListener {
+
     private String TAG = Image3LayoutActivity.this.getClass().getSimpleName();
     private Images3LinearLayout image3Layout;
     private Images3LinearLayout.Images3Params images3Params;

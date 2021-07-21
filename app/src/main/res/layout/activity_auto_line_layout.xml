@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.gongjiebin.latticeview.AutoLineLayout
-        android:id="@+id/ao_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-
 
 
     <com.gongjiebin.latticeview.AutoLineDeleteView
@@ -35,7 +29,31 @@
             android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="确定"/>
+            android:text="添加标签"/>
 
     </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_edit"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开启删除模式"/>
+
+
+    <Button
+        android:id="@+id/btn_change"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="切换复选状态"/>
+
+    <Button
+        android:id="@+id/btn_sel"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打印已经选中的选项"/>
+
 </LinearLayout>
