@@ -1,8 +1,8 @@
 package com.gongjiebin.latticeview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -141,8 +141,7 @@ public class PersonalTabBar extends LatticeView {
 
         ll_lattice.addView(linearLayout, 0);
         ll_lattice.addView(slideLinear, 1);
-        if (params.bg_color != 0)
-            ll_lattice.setBackgroundColor(mContext.getResources().getColor(params.bg_color));
+        ll_lattice.setBackgroundColor(Color.parseColor(params.bg_color));
 
 
         if (params.selectIndex != -1 && params.selectIndex < params.text.length) {
@@ -196,8 +195,8 @@ public class PersonalTabBar extends LatticeView {
     /**
      * 重写注册监听事件。 要在本类做一些动画操作
      */
-    public LatticeView.OnItemClickListener getOnItemClickListener(final Object[] urls, final int position) {
-        LatticeView.OnItemClickListener onItemClickListener = new LatticeView.OnItemClickListener() {
+    public OnItemClickListener getOnItemClickListener(final Object[] urls, final int position) {
+        OnItemClickListener onItemClickListener = new OnItemClickListener() {
             @Override
             public void onClick(final View v) {
                 showItemPosition(position);
@@ -252,7 +251,7 @@ public class PersonalTabBar extends LatticeView {
     /**
      * 设置属性Text,
      */
-    public static class TextParams extends LatticeView.ImageTextParams {
+    public static class TextParams extends ImageTextParams {
         /**
          * 字体下面有一个滑动的图片的样式。
          * <p>

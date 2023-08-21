@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         final Images3LinearLayout.Images3Params images3Params = new Images3LinearLayout.Images3Params();
 
         images3Params.imageLoader = new GlideImageLoader();
-        images3Params.bg_color =android.R.color.white;
+        images3Params.bg_color = "#ffffff";
         images3Params .setUrls(urls);
 
 
@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v, Object[] urls, int position) {
                 // 图片点击事件
                 Log.d(TAG, "position" + position);
+            }
+
+            @Override
+            public void onClick(View v, ImageView imageView, Object[] urls, int position) {
+
             }
         });
 

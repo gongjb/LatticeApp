@@ -1,6 +1,7 @@
 package com.gongjiebin.latticeview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -58,7 +59,7 @@ public class AutoLineDeleteView<T extends KVBean> extends AutoLineLayout {
     public void createViews(List<T> views, int position) {
         if (views == null || views.size() == 0) return;
         LinearLayout linearLayout = new LinearLayout(mContext);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL); //
         //linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
         linearLayout.setPadding(0, 10, 0, 10);
@@ -79,8 +80,7 @@ public class AutoLineDeleteView<T extends KVBean> extends AutoLineLayout {
                         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSize);
                     if(editParams.getTextColor()!=0)
                         textView.setTextColor(mContext.getResources().getColor(editParams.getTextColor()));
-                    if(editParams.getBg_color()!=0)
-                        textView.setBackgroundResource(editParams.bg_color);
+                        textView.setBackgroundColor(Color.parseColor(editParams.bg_color));
                 }else{
                     if(editParams.textSelectSize!=0)
                         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSelectSize);
@@ -150,8 +150,8 @@ public class AutoLineDeleteView<T extends KVBean> extends AutoLineLayout {
 
 
 
-    public View.OnClickListener onDeleteTbs(final T s) {
-        View.OnClickListener onClickListener = new View.OnClickListener() {
+    public OnClickListener onDeleteTbs(final T s) {
+        OnClickListener onClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onDelectTagListener != null) {

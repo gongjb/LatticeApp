@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
@@ -143,6 +145,8 @@ public abstract class BaseLatticeView extends LinearLayout {
          * @param position 点击的位置
          */
         void onClick(View v, Object[] urls, int position);
+
+        void onClick(View v, ImageView imageView, Object[] urls, int position);
     }
 
 
@@ -177,7 +181,8 @@ public abstract class BaseLatticeView extends LinearLayout {
         // 一行最多显示几个
         public int maxLine;
         // 背景颜色(默认白色)
-        public int bg_color = android.R.color.white;
+        public String bg_color = "#F4F5F7";
+        public int bg_color_int = 0;
         // 字体颜色/初始颜色
         public int textColor;
         // 字体选中之后的颜色
@@ -194,7 +199,14 @@ public abstract class BaseLatticeView extends LinearLayout {
         public boolean isTextBold;
         // true, 表示都是隐藏状态
         public boolean isHide;
-
+        // 宽
+        public int imageWidth;
+        // 高
+        public int imageHigh;
+       //  ImageView.ScaleType.FIT_XY
+        public ImageView.ScaleType imageType;
+        // 点击之后Image发生的动画
+        public Animation animation;
         /*
         selectIndex为-1时将不显示滑块
 
@@ -252,11 +264,11 @@ public abstract class BaseLatticeView extends LinearLayout {
             return this;
         }
 
-        public int getBg_color() {
+        public String getBg_color() {
             return bg_color;
         }
 
-        public ImageTextParams setBg_color(int bg_color) {
+        public ImageTextParams setBg_color(String bg_color) {
             this.bg_color = bg_color;
             return this;
         }

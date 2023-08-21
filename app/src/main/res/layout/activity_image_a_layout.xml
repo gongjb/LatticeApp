@@ -128,8 +128,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-
             <com.gongjiebin.latticeview.Images3LinearLayout
                 android:id="@+id/il_mian"
                 android:layout_width="match_parent"

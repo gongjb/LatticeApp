@@ -1,6 +1,7 @@
 package com.gongjiebin.latticeview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -87,7 +88,7 @@ public class LatticeView extends BaseLatticeView {
             LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             linearLayout.setOrientation(LinearLayout.HORIZONTAL); //
             //linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-            linearLayout.setPadding(0, 10, 0, 10);
+            linearLayout.setPadding(0, dip2px(getContext(), 6), 0, dip2px(getContext(), 6));
             linearLayout.setLayoutParams(layoutParams);
 
             int intstart = (i) * imageTextBeanParams.maxLine; // 数组开始的位置
@@ -98,7 +99,7 @@ public class LatticeView extends BaseLatticeView {
             else num = imageTextBeanParams.maxLine;
 
 
-            Integer[] lineImage = new Integer[imageTextBeanParams.maxLine];
+            Object[] lineImage = new Object[imageTextBeanParams.maxLine];
             String[] lineText = new String[imageTextBeanParams.maxLine];
             int[] lattIds = new int[imageTextBeanParams.maxLine];
             if (imageTextBeanParams.latticeIds == null) {
@@ -123,9 +124,17 @@ public class LatticeView extends BaseLatticeView {
                 if (!TextUtils.isEmpty(lineText[j])) {
                     lio.setId(lattIds[j]);
                     ImageView imageView = new ImageView(mContext);
-                    LayoutParams ir = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                    LayoutParams ir;
+                    if (imageTextBeanParams.imageWidth != 0 && imageTextBeanParams.imageHigh != 0) {
+                        ir = new LayoutParams(dip2px(getContext(), imageTextBeanParams.imageWidth), dip2px(getContext(), imageTextBeanParams.imageHigh));
+                    } else {
+                        ir = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                    }
+                    if (imageTextBeanParams.imageType != null) {
+                        imageView.setScaleType(imageTextBeanParams.imageType);
+                    }
                     imageView.setLayoutParams(ir);
-                    imageView.setImageDrawable(mContext.getResources().getDrawable(lineImage[j]));
+                    imageTextBeanParams.imageLoader.displayImage(mContext, lineImage[j],imageView);
                     lio.addView(imageView, 0);
                     imageViews.add(imageView);
                     TextView textView = new TextView(mContext);
@@ -155,8 +164,12 @@ public class LatticeView extends BaseLatticeView {
             }
             ll_lattice.addView(linearLayout, i);
         }
-        if (imageTextBeanParams.bg_color != 0)
-            ll_lattice.setBackgroundColor(mContext.getResources().getColor(imageTextBeanParams.bg_color));
+
+        if (imageTextBeanParams.bg_color_int != 0) {
+            ll_lattice.setBackgroundColor(imageTextBeanParams.bg_color_int);
+        } else {
+            ll_lattice.setBackgroundColor(Color.parseColor(imageTextBeanParams.bg_color));
+        }
 
         if (imageTextBeanParams.selectIndex != -1 && imageTextBeanParams.selectIndex < imageTextBeanParams.text.length) {
 
@@ -177,12 +190,14 @@ public class LatticeView extends BaseLatticeView {
         OnItemClickListener onItemClickListener = new OnItemClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 selectOnClick(position);
-
+                ImageView imageView = imageViews.get(position);
+                if (imageTextBeanParams.animation != null) {
+                    imageView.startAnimation(imageTextBeanParams.animation);
+                }
                 if (onPageItemOnClickListener != null) {
                     onPageItemOnClickListener.onClick(v, urls, position);
+                    onPageItemOnClickListener.onClick(v, imageView, urls, position);
                 }
             }
         };
@@ -190,11 +205,14 @@ public class LatticeView extends BaseLatticeView {
     }
 
 
+
+
     public OnLongClickListener getOnItemLongClickListener(final Object[] urls, final int position) {
         OnLongClickListener onItemClickListener = new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (onPageItemOnLongClickListener != null) {
+
                     onPageItemOnLongClickListener.onLongClick(v, urls, position);
                 }
                 // 如返回false, 事件分发导致会接连调用onClick事件
@@ -280,15 +298,18 @@ public class LatticeView extends BaseLatticeView {
      * @param position
      */
     public void changeImage(int position) {
-        if (imageViews != null) {
+        if (imageViews != null && imageTextBeanParams.selectImages != null) {
             for (int i = 0; i < imageViews.size(); i++) {
                 ImageView imageView = imageViews.get(i);
+                if (imageTextBeanParams.animation != null) {
+                    imageView.clearAnimation();
+                }
                 if (position == i) {
                     // 点击选中的
-                    imageView.setImageResource((Integer) imageTextBeanParams.selectImages[i]);
+                    imageTextBeanParams.imageLoader.displayImage(mContext, imageTextBeanParams.selectImages[i], imageView);
                 } else {
                     // 其它的恢复原状
-                    imageView.setImageResource((Integer) imageTextBeanParams.images[i]);
+                    imageTextBeanParams.imageLoader.displayImage(mContext, imageTextBeanParams.images[i], imageView);
                 }
             }
         }

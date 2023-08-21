@@ -1,7 +1,8 @@
 package com.gongjiebin.latticeview;
 
+import static android.view.MotionEvent.ACTION_DOWN;
+
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -10,18 +11,16 @@ import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import static android.view.MotionEvent.ACTION_DOWN;
 
 /**
  * @author gongjiebin
@@ -320,7 +319,7 @@ public class Images3LinearLayout extends LatticeView {
         for (int i = 0; i < countLine; i++) {
             // 循环加入行 LinearLayout视图
             LinearLayout linearLayout = new LinearLayout(mContext);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(params.width, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LayoutParams layoutParams = new LayoutParams(params.width, LayoutParams.WRAP_CONTENT);
             linearLayout.setOrientation(LinearLayout.HORIZONTAL); //
             //linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
             linearLayout.setPadding(0, params.space, 0, 0);
@@ -350,7 +349,7 @@ public class Images3LinearLayout extends LatticeView {
 
             for (int j = 0; j < lineImage.length; j++) {
                 final LinearLayout lio = new LinearLayout(mContext);
-                LinearLayout.LayoutParams imageparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 3.0f);
+                LayoutParams imageparams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 3.0f);
                 lio.setOrientation(LinearLayout.VERTICAL); //
                 lio.setGravity(Gravity.CENTER);
                 //lio.setBackgroundColor(mContext.getResources().getColor(R.color.white));
@@ -359,14 +358,14 @@ public class Images3LinearLayout extends LatticeView {
                     lio.setId(lattIds[j]);
                     // 只有相对布局才能覆盖 - 主要
                     RelativeLayout relativeLayout = new RelativeLayout(mContext);
-                    RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
                     relativeLayout.setLayoutParams(relativeParams);
                     imageParents.add(lio);
 
                     final ImageView imageView = new ImageView(mContext);
                     // 计算ImageView的高度
                     int h = params.width / params.maxLine;
-                    LinearLayout.LayoutParams ir = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, h);
+                    LayoutParams ir = new LayoutParams(LayoutParams.MATCH_PARENT, h);
                     imageView.setScaleType(params.scaleType);
                     ir.setMargins(params.space, params.space, params.space, 0);
                     imageView.setLayoutParams(ir);
@@ -396,7 +395,7 @@ public class Images3LinearLayout extends LatticeView {
 //                        LinearLayout.LayoutParams delectParams = new LinearLayout.LayoutParams(params.deleteImageSize==0?50:params.deleteImageSize,
 //                                params.deleteImageSize==0?50:params.deleteImageSize);
 
-                        LinearLayout.LayoutParams delectParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LayoutParams delectParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                         ImageView delect = new ImageView(mContext);
                         delect.setScaleType(ImageView.ScaleType.FIT_XY);
                         int delPadding = params.deleteImagePadding;
@@ -423,30 +422,23 @@ public class Images3LinearLayout extends LatticeView {
 
                         relativeLayout.addView(delect, 1);
                     }
-
-
                     lio.addView(relativeLayout);
                     lio.setClickable(true);
-
-
                     lio.setOnClickListener(getOnItemClickListener(us, index));
                     lio.setOnLongClickListener(getOnItemLongClickListener(us, index));
                 }
                 linearLayout.addView(lio, j);
             }
-
-
             ll_lattice.addView(linearLayout, i);
         }
-        if (params.bg_color != 0)
-            ll_lattice.setBackgroundColor(mContext.getResources().getColor(params.bg_color));
+        ll_lattice.setBackgroundColor(Color.parseColor(params.bg_color));
         return true;
     }
 
 
     @Override
-    public View.OnLongClickListener getOnItemLongClickListener(final Object[] urls, final int position) {
-        View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+    public OnLongClickListener getOnItemLongClickListener(final Object[] urls, final int position) {
+        OnLongClickListener onLongClickListener = new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 // 这里可以开启拖拽删除
@@ -480,6 +472,8 @@ public class Images3LinearLayout extends LatticeView {
                         params.imageLoader.displayImage(mContext, urls[position], imageView);
                     }
 
+                    ((ViewGroup)imageView.getParent()).setFocusable(false);
+
                     PopupWindow popupWindow = Image3DragDropPopWindow.createFunctionPopupWindow(layout);
                     imageView.setOnTouchListener(getTouchListener(popupWindow, relativeLayout, rl_del, tv_del, viv.getWidth(), position, urls));
                 }
@@ -496,7 +490,7 @@ public class Images3LinearLayout extends LatticeView {
     }
 
 
-    public View.OnTouchListener getTouchListener(final PopupWindow pop,
+    public OnTouchListener getTouchListener(final PopupWindow pop,
                                                  final RelativeLayout mainRl,
                                                  final RelativeLayout rl_del,
                                                  final TextView tv_del,
@@ -505,7 +499,7 @@ public class Images3LinearLayout extends LatticeView {
                                                  final Object[] urls) {
 
 
-        View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+        OnTouchListener onTouchListener = new OnTouchListener() {
             int lastX, lastY;    //保存手指点下的点的坐标
 
             @Override
@@ -610,8 +604,13 @@ public class Images3LinearLayout extends LatticeView {
                     }
                 }
 
-                if (Images3LinearLayout.super.getOnItemClickListener(urls, position) != null && isOnClick) {
-                    Images3LinearLayout.super.getOnItemClickListener(urls, position).onClick(v);
+                if (isOnClick) {
+                    selectOnClick(position);
+                    ImageView imageView = imageViews.get(position);
+                    if (onPageItemOnClickListener != null) {
+                        onPageItemOnClickListener.onClick(v, urls, position);
+                        onPageItemOnClickListener.onClick(v, imageView, urls, position);
+                    }
                 }
             }
         };
@@ -632,7 +631,7 @@ public class Images3LinearLayout extends LatticeView {
         this.onImages3PageItemOnClickListener = onImages3PageItemOnClickListener;
     }
 
-    public interface OnImages3PageItemOnClickListener extends LatticeView.OnPageItemOnClickListener {
+    public interface OnImages3PageItemOnClickListener extends OnPageItemOnClickListener {
         /**
          * 该方法主要监听当前点击的是不是最后一个view， 并且只有在添加图片编辑的情况下，才会被调用
          *
@@ -648,8 +647,8 @@ public class Images3LinearLayout extends LatticeView {
      * @param index
      * @return
      */
-    public View.OnClickListener getDeleteImageOnClickListener(final String[] urls, final int index) {
-        View.OnClickListener onClickListener = new View.OnClickListener() {
+    public OnClickListener getDeleteImageOnClickListener(final String[] urls, final int index) {
+        OnClickListener onClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "click " + index);
@@ -710,7 +709,7 @@ public class Images3LinearLayout extends LatticeView {
     /**
      * 给本视图设置基本参数
      */
-    public static class Images3Params extends LatticeView.ImageTextParams {
+    public static class Images3Params extends ImageTextParams {
         public String[] urls; // 图片路径集合（必须）
         //ImageView.ScaleType. 图片显示的样式， 默认铺满
         public ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;
@@ -758,7 +757,7 @@ public class Images3LinearLayout extends LatticeView {
 
 
         @Override
-        public Images3Params setBg_color(int bg_color) {
+        public Images3Params setBg_color(String bg_color) {
             super.bg_color = bg_color;
             return this;
         }

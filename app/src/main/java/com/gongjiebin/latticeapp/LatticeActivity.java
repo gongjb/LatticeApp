@@ -1,10 +1,13 @@
 package com.gongjiebin.latticeapp;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.gongjiebin.latticeview.BaseLatticeView;
 import com.gongjiebin.latticeview.LatticeView;
@@ -40,29 +43,35 @@ public class LatticeActivity extends AppCompatActivity {
         // 选中之后应该展示的图片
         imageTextParams.selectImages = new Integer[]{R.mipmap.tab_home_current,R.mipmap.tab_index_current, R.mipmap.tab_cart_current};
         imageTextParams.text = new String[]{"提问", "发动态", "发文章"};
-        imageTextParams.maxLine = 3; // 每一行显示的个数
-        imageTextParams.textSize = 11; // text的字体大小
-        imageTextParams.textPaddingTop = 2; //字体向上给一个padding
+        imageTextParams.maxLine = imageTextParams.selectImages.length; // 每一行显示的个数
+        imageTextParams.imageHigh = 24;
+        imageTextParams.imageWidth = 24;
+        imageTextParams.textSize = 10; // text的字体大小
+        imageTextParams.textPaddingTop = LatticeView.dip2px(this, 6); //字体向上给一个padding
         imageTextParams.selectIndex = 0; // 默认第一个被选中
-        imageTextParams.bg_color = android.R.color.transparent; // 背景透明
         imageTextParams.textColor = R.color.black; // 字体默认颜色
+        imageTextParams.imageType = ImageView.ScaleType.FIT_XY;
         imageTextParams.textSelectColor = R.color.f0; // 字体被选中的颜色
+        //imageTextParams.bg_color_int = R.color.colorPrimary_main;
+        //imageTextParams.animation = createAnimation();
         ll_view.setImageTextParams(imageTextParams);
+        imageTextParams.imageLoader = new GlideImageLoader();
         ll_view.startView(); // 开始加载布局
-
-
-
-
         initListener();
     }
 
     public void initListener(){
-
         //   绑定点击事件
         ll_view.setOnPageItemOnClickListener(new BaseLatticeView.OnPageItemOnClickListener() {
             @Override
             public void onClick(View v, Object[] urls, int position) {
                 Log.e("GJB","position = " + position);
+            }
+
+            @Override
+            public void onClick(View v, ImageView imageView, Object[] urls, int position) {
+                // 执行动画
+                createAnmation(imageView);
             }
         });
 
@@ -109,7 +118,24 @@ public class LatticeActivity extends AppCompatActivity {
                 ll_view.startView(); // 开始加载布局
             }
         });
+    }
+
+    private void createAnmation(ImageView imageView) {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(imageView, "scaleY", 1.0f, 0.6f);
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(imageView, "scaleX", 1.0f, 0.6f);
+
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(imageView, "scaleY", 0.6f, 1f);
+        ObjectAnimator objectAnimator3 = ObjectAnimator.ofFloat(imageView, "scaleX", 0.6f, 1f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator, objectAnimator1);
+
+        AnimatorSet animatorSet1 = new AnimatorSet();
+        animatorSet1.playTogether(objectAnimator2, objectAnimator3);
 
 
+        AnimatorSet animatorSet3 = new AnimatorSet();
+        animatorSet3.setDuration(300);
+        animatorSet3.playSequentially(animatorSet, animatorSet1);
+        animatorSet3.start();
     }
 }

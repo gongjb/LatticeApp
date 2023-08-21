@@ -80,7 +80,7 @@ public class AutoLineActivity extends AppCompatActivity {
         autoEditParams = new AutoLineDeleteView.AutoEditParams();
 
         //选中与未选中背景颜色变化
-        autoEditParams.bg_color = (R.drawable.bg_baijiu_info);
+        //autoEditParams.bg_color = (R.drawable.bg_baijiu_info);
         autoEditParams.select_bg_color = R.drawable.bg_re_baijiu_info;
         // 字体是否加粗显示
         autoEditParams.isTextBold = true;

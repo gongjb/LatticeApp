@@ -1,5 +1,7 @@
 package com.gongjiebin.latticeapp;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -7,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.gongjiebin.latticeview.BaseLatticeView;
 import com.gongjiebin.latticeview.PersonalTabBar;
@@ -101,7 +104,16 @@ public class TabBarActivity extends AppCompatActivity {
                 sel_idx = position;
                 v_page.setCurrentItem(position);
             }
+
+            @Override
+            public void onClick(View v, ImageView imageView, Object[] urls, int position) {
+                this.onClick(v, urls, position);
+                // 执行动画
+                createAnmation(imageView);
+            }
         });
+
+
 
         v_page.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -141,5 +153,24 @@ public class TabBarActivity extends AppCompatActivity {
                 },400);
             }
         });
+    }
+
+    private void createAnmation(ImageView imageView) {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(imageView, "scaleY", 1.0f, 0.6f);
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(imageView, "scaleX", 1.0f, 0.6f);
+
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(imageView, "scaleY", 0.6f, 1f);
+        ObjectAnimator objectAnimator3 = ObjectAnimator.ofFloat(imageView, "scaleX", 0.6f, 1f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator, objectAnimator1);
+
+        AnimatorSet animatorSet1 = new AnimatorSet();
+        animatorSet1.playTogether(objectAnimator2, objectAnimator3);
+
+
+        AnimatorSet animatorSet3 = new AnimatorSet();
+        animatorSet3.setDuration(300);
+        animatorSet3.playSequentially(animatorSet, animatorSet1);
+        animatorSet3.start();
     }
 }

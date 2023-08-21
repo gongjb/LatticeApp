@@ -45,28 +45,20 @@ public class Image3LayoutActivity extends AppCompatActivity implements
                 ("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpcs4.clubstatic.lenovo.com.cn%2Fdata%2Fattachment%2Fforum%2F201807%2F18%2F142304to0n1u0uurf07fyr.jpg&refer=http%3A%2F%2Fpcs4.clubstatic.lenovo.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625208782&t=b6434aff7770ea5e58b75bb8e9132068"),
                 ("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"),
                 ("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fclubimg.club.vmall.com%2Fdata%2Fattachment%2Fforum%2F201907%2F31%2F010210loua4oghrbtvhbzk.jpg&refer=http%3A%2F%2Fclubimg.club.vmall.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625195254&t=e729a2ad5bffd6051ba2dde13d621f57"),
-                ("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201209%2F01%2F2150537dqggg4hgsgifsfd.jpg&refer=http%3A%2F%2Fattach.bbs.miui.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625208782&t=de983abe865105ea8151fa2fa2f47bab"),
-                ("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1642572855,2753515187&fm=26&gp=0.jpg"),
-                ("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201407%2F04%2F222814riphovmoww4jm4vd.jpg&refer=http%3A%2F%2Fattach.bbs.miui.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625208782&t=1329812383a601a44cb7f62b3a330da9"),
-                ("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpcs4.clubstatic.lenovo.com.cn%2Fdata%2Fattachment%2Fforum%2F201807%2F18%2F142304to0n1u0uurf07fyr.jpg&refer=http%3A%2F%2Fpcs4.clubstatic.lenovo.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625208782&t=b6434aff7770ea5e58b75bb8e9132068")
+                ("https://cdn.pixabay.com/photo/2020/05/19/13/32/cartoon-5190837_1280.jpg"),
+                ("https://cdn.pixabay.com/photo/2020/05/19/13/35/cartoon-5190860_1280.jpg"),
+                ("https://cdn.pixabay.com/photo/2022/03/31/14/53/camp-7103189_1280.png")
         };
 
-
         images3Params = new Images3LinearLayout.Images3Params();
-
         // 添加到头部view
         images3Params = new Images3LinearLayout.Images3Params();
-
         images3Params.imageLoader = new GlideImageLoader();
-        images3Params.bg_color = android.R.color.white;
+        images3Params.bg_color = "#ffffff";
         images3Params.setUrls(urls);
-
         images3Params.maxLine = 3;
-
         images3Params.space = 4; // 图片间距
         images3Params.scaleType = ImageView.ScaleType.CENTER; // 图片居中显示。 默认是铺满
-
-
         image3Layout.post(new Runnable() {
             @Override
             public void run() {
@@ -104,6 +96,8 @@ public class Image3LayoutActivity extends AppCompatActivity implements
         // 长按事件监听
         image3Layout.setOnPageItemOnLongClickListener(this);
 
+
+
     }
 
 
@@ -118,6 +112,11 @@ public class Image3LayoutActivity extends AppCompatActivity implements
     public void onClick(View v, Object[] urls, int position) {
         //urls 这个是返回的图片路径，需要强制转换一下
         Log.d(TAG, "处理自己的逻辑 - 比如启动预览,点击了 + " + position);
+    }
+
+    @Override
+    public void onClick(View v, ImageView imageView, Object[] urls, int position) {
+
     }
 
     @Override
@@ -213,7 +212,5 @@ public class Image3LayoutActivity extends AppCompatActivity implements
 
         }
     }
-
-
 
 }

@@ -1,6 +1,7 @@
 package com.gongjiebin.latticeview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -8,7 +9,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +110,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
     public void createView(List<T> views, int position) {
         if (views == null || views.size() == 0) return;
         LinearLayout linearLayout = new LinearLayout(mContext);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL); //
         //linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
         linearLayout.setPadding(0, 10, 0, 10);
@@ -124,7 +124,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
             final T view = viewList.get(i);
             if (view != null) {
                 TextView textView = new TextView(mContext);
-                LinearLayout.LayoutParams tr = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                LayoutParams tr = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 tr.setMargins(dip2px(mContext, 2), 0, dip2px(mContext, 2), 0);
                 textView.setLayoutParams(tr);
                 textView.setPadding(dip2px(mContext, 5), dip2px(mContext, 5), dip2px(mContext, 5), dip2px(mContext, 5));
@@ -135,8 +135,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
                         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSize);
                     if(editParams.getTextColor()!=0)
                         textView.setTextColor(mContext.getResources().getColor(editParams.getTextColor()));
-                    if(editParams.getBg_color()!=0)
-                        textView.setBackgroundResource(editParams.bg_color);
+                        textView.setBackgroundColor(Color.parseColor(editParams.bg_color));
                 }else{
                     if(editParams.textSelectSize!=0)
                         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSelectSize);
@@ -194,7 +193,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
     }
 
     public interface OnItemClickListener<T extends KVBean>{
-       void onClickItem(View view,T t);
+       void onClickItem(View view, T t);
     }
 
     public LatticeView.OnItemClickListener getOnItemClickListener(final T kv) {
@@ -235,7 +234,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
                             kvTag.isSel = false;
                             if(editParams.textColor!=0)v.setTextColor(mContext.getResources().getColor(editParams.textColor));
                             if(editParams.textSize!=0)v.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSize);
-                            v.setBackgroundResource(editParams.bg_color);
+                            v.setBackgroundColor(Color.parseColor(editParams.bg_color));
                         }else{
                             // 如果是同一个对象。选中
                             kvTag.isSel = true;
@@ -265,7 +264,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
                             if(editParams.textColor!=0)v.setTextColor(mContext.getResources().getColor(editParams.textColor));
                             if(editParams.textSize!=0)v.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSize);
                             // 其它的为未选中
-                            v.setBackgroundResource(editParams.bg_color);
+                            v.setBackgroundColor(Color.parseColor(editParams.bg_color));
                         }else{
                             kvTag.isSel = true;
                             if(editParams.textSelectColor!=0)v.setTextColor(mContext.getResources().getColor(editParams.textSelectColor));
@@ -278,7 +277,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
                         if(editParams.textColor!=0)v.setTextColor(mContext.getResources().getColor(editParams.textColor));
                         if(editParams.textSize!=0)v.setTextSize(TypedValue.COMPLEX_UNIT_SP, editParams.textSize);
                         // 其它的为未选中
-                        v.setBackgroundResource(editParams.bg_color);
+                        v.setBackgroundColor(Color.parseColor(editParams.bg_color));
                     }
                 }
             }
@@ -289,7 +288,7 @@ public class AutoLineLayout<T extends KVBean> extends LatticeView {
     /**
      * @author gongjiebin
      */
-    public static class AutoEditParams extends BaseLatticeView.ImageTextParams {
+    public static class AutoEditParams extends ImageTextParams {
 
         /**
          * 你可以设定你喜欢的删除图片，不设置的话默认使用本系统的
